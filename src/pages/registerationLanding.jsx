@@ -11,6 +11,7 @@ import PersonPinIcon from '@material-ui/icons/PersonPin';
 import RegForm from '../components/landingRegForm';
 
 import '../style/reg.css';
+import { async } from 'q';
 
 const styles = {
   rootRegNav: {
@@ -54,6 +55,11 @@ class IconLabelTabs extends React.Component {
     this.setState({ value });
   };
 
+  onSubmit =async e => {
+    e.preventDefault();
+    //call register here
+  }
+
   handleSubmit = (event) => {
     alert('you are submitting');
     event.preventDefault();
@@ -89,7 +95,7 @@ class IconLabelTabs extends React.Component {
             <Tab icon={<PersonPinIcon />} label="ABOUT YOU" />
           </Tabs>
         </Paper>
-        <button form="regform" className="btn" type="submit"> Let&apos;s Go </button>
+        <button form="regform" onSubmit={e => this.onSubmit(e)}  className="btn" type="submit"> Let&apos;s Go </button>
       </div>
     );
   }

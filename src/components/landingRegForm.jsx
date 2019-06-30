@@ -1,5 +1,9 @@
 import React from 'react';
 import '../style/reg.css';
+import { connect } from 'react-redux'
+import { setAlert } from '../actions/alert'
+import { register } from '../actions/auth'
+import propTypes from 'prop-types'
 
 class LandingRegForm extends React.Component {
   constructor(props) {
@@ -18,12 +22,14 @@ class LandingRegForm extends React.Component {
       webVal: '',
       extendMonthDisp: { display: 'block' },
       specialMonth: { display: 'block' },
+      register
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleDropdownMonth = this.handleDropdownMonth.bind(this);
     this.handleDropdownDate = this.handleDropdownDate.bind(this);
     this.handleDropdownYear = this.handleDropdownYear.bind(this);
+    
   }
 
   handleDropdownMonth(event) {
@@ -54,7 +60,7 @@ class LandingRegForm extends React.Component {
   handleDropdownDate(event) {
     const { monthVal } = this.state;
     if (monthVal === '') {
-      alert('Please select the month first');
+      this.props.setAlert('Please select the month first');
     } else {
       this.setState({
         dateValPlaceholder: '',
@@ -96,7 +102,8 @@ class LandingRegForm extends React.Component {
     } = this.state;
     return (
       <div className="formCont">
-        <form id="regform" action="#" method="POST" onSubmit={() => this.handleSubmit}>
+        <form id="regform" onSubmit={register({nameVal , emailVal , entryVal})}> 
+        {/* changeabove */}
           <div className="row">
             <input type="text" name="name" className="" placeholder="Full Name: John Doe" value={nameVal} onChange={this.handleChange} required />
             <input type="text" name="eno" className="" placeholder="Entry Number: 2018XX20101" value={entryVal} onChange={this.handleChange} />
@@ -205,4 +212,8 @@ class LandingRegForm extends React.Component {
   }
 }
 
-export default LandingRegForm;
+LandingRegForm.propTypes = {
+  register : propTypes.func.isRequired
+}
+
+export default connect(null , { setAlert , register })(LandingRegForm);
